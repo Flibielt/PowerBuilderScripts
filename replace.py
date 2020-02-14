@@ -1,8 +1,17 @@
 import codecs
 import os
+import enum
 
+class SetterInsertion(enum.Enum):
+    wait = 1
+    done = 2
+    insert = 3
+    witchConstructor = 4
+
+setterInsertion = SetterInsertion.done
 uGomb = False
 skipLine = False
+uGombEvents = False
 setterFuncs = {""}
 defaultButtons = {""}
 cancelButtons = {""}
@@ -19,8 +28,11 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                 if "from u_gomb within" in line:
                     line = line.replace("u_gomb", "u_dynamic_button")
                     uGomb = True
+                    uGombEvents = False
                 elif uGomb and "end type" in line:
                     uGomb = False
+                    if len(setterFuncs) > 0:
+                        setterInsertion = SetterInsertion.wait
                 #Convert some properties to setters
                 if uGomb:
                     if "int textsize" in line.lower() or "integer textsize" in line.lower():
@@ -62,8 +74,34 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                         skipLine = True
                         #More functionality?
                 
+                if uGombEvents:
+                    if "event clicked;call super::clicked;" in line.lower():
+                        line = line.replace("event clicked;call super::clicked;", "event u_click;call super::u_click;")
+                        setterInsertion = SetterInsertion.insert
+                    elif "event constructor;call super::constructor;" in line.lower():
+                        setterInsertion = SetterInsertion.insert
+                    elif line.startswith("type") and setterInsertion == SetterInsertion.wait:
+                        setterInsertion = SetterInsertion.witchConstructor
 
                 if not skipLine:
                     with open(outFile, "a") as f:
-                        f.write(line.rstrip())
-                        f.write("\n")
+                        if setterInsertion == SetterInsertion.insert:
+                            f.write(line.rstrip())
+                            f.write("\n")
+                            for setter in setterFuncs:
+                                f.write(setter)
+                            setterFuncs.clear()
+                            setterInsertion = SetterInsertion.done
+                        elif setterInsertion == SetterInsertion.witchConstructor:
+                            f.write("event constructor;call super::constructor;")
+                            for setter in setterFuncs:
+                                f.write(setter)
+                            f.write("end event")
+                            f.write("\n")
+                            f.write(line.rstrip())
+                            f.write("\n")
+                            setterFuncs.clear()
+                            setterInsertion = SetterInsertion.done
+                        else:
+                            f.write(line.rstrip())
+                            f.write("\n")
