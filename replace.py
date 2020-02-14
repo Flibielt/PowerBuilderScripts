@@ -29,6 +29,8 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                     line = line.replace("u_gomb", "u_dynamic_button")
                     uGomb = True
                     uGombEvents = False
+                    if setterInsertion == SetterInsertion.wait:
+                        setterInsertion = SetterInsertion.witchConstructor
                 elif "end type" in line:
                     uGomb = False
                     uGombEvents = True
@@ -38,7 +40,7 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                     if "int textsize" in line.lower() or "integer textsize" in line.lower():
                         setterFuncs.add("this.set_textsize(" + line[line.find("= "):].strip() + ")")
                         skipLine = True
-                    elif "string text " in line.lower():
+                    elif "string text" in line.lower() or "string Text" in line:
                         setterFuncs.add("this.set_text(" + line[line.find("= "):].strip() + ")")
                         skipLine = True
                     elif "fontcharset fontcharset" in line.lower():
