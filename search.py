@@ -14,7 +14,7 @@ uGombEvenetDeclaration = False
 uGombProperties = {"prop"}
 uGombEvents = {"event"}
 
-for root, dirs, files in os.walk("mc2svn17UD", topdown=False):
+for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
    for name in files:
       if name.startswith("w_"):
          fileName = os.path.join(root, name)
