@@ -60,7 +60,7 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                      uGomb2Set.add(repr(line))
                      uGomb2Repeat = uGomb2Repeat + 1
                
-               if (line.lower().strip().startswith("cb_") and "." in repr(line) and "=" in repr(line)):
+               if (";cb_" in repr(line) and "." in repr(line) and "=" in repr(line)):
                   #print(fileName)
                   if not "enabled" in line.lower() and not ".x" in line.lower() and not ".y" in line.lower() and not ".visible" in line.lower() and not ".taborder" in line.lower() and not ".bringtotop" in line.lower():
                      propertyChange = True
