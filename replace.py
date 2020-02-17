@@ -17,11 +17,17 @@ defaultWidth = 347
 defaultHeight = 84
 buttons = {"button"}
 skipLine = False
+decleration = False
+declerationWithHeight = False
+declerationWithWidth = False
+elements = {""}
 uGombEvents = False
 setterFuncs = {""}
 
 #todo: window szinten esc/enter esetén default/cacnel trigger
 #todo: property változás helyett setterek a deklarációkon kívül is
+#todo: cb_ok.Event Post Clicked() helyett cb_ok.Event Post u_click(1, 1, 1)
+#todo: width és height property legyen mindenhol
 
 for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
    for name in files:
@@ -39,7 +45,8 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                     line = line.replace("u_ok_gomb", "u_dynamic_button")
                     line = line.replace("u_megsem_gomb", "u_dynamic_button")
                     if line in buttons:
-                        uGombDeclaration = True
+                        if "from u_gomb within" in line or "from commandbutton within" in line or "from u_ok_gomb within" in line or "from u_megsem_gomb within" in line:
+                            setterFuncs.add("this.resize_inner_objects(this.width, this.height)")
                     else:
                         uGombDeclaration = False
                     buttons.add(line)
@@ -51,11 +58,13 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                         setterInsertion = SetterInsertion.witchConstructor
                 elif "end type" in line and uGomb == True:
                     if uGombDeclaration and not widthChange:
-                        line = "integer width = " + str(defaultWidth) + "\r" + line
+                        line = "integer width = " + str(defaultWidth) + "\r\n" + line
                     if uGombDeclaration and not heightChange:
-                        line = "integer height = " + str(defaultHeight) + "\r" + line
+                        line = "integer height = " + str(defaultHeight) + "\r\n" + line
                     uGomb = False
                     uGombEvents = True
+                    widthChange = False
+                    heightChange = False
                     setterInsertion = SetterInsertion.wait
                 #Convert some properties to setters
                 elif uGomb:
@@ -110,6 +119,7 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                         uGombDeclaration = False
                     elif line.strip().startswith("type") and setterInsertion == SetterInsertion.wait:
                         setterInsertion = SetterInsertion.witchConstructor
+                        uGombEvents = False
                     elif line.strip().startswith("type"):
                         uGombEvents = False
 
@@ -131,7 +141,7 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                                 f.write("\r")
                             setterFuncs.clear()
                             setterInsertion = SetterInsertion.done
-                        elif setterInsertion == SetterInsertion.witchConstructor:
+                        elif setterInsertion == SetterInsertion.witchConstructor and uGombDeclaration:
                             f.write("event constructor;call super::constructor;")
                             f.write("\r")
                             for setter in setterFuncs:
