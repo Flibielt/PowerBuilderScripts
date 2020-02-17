@@ -13,12 +13,13 @@ uGombDeclaration = False
 uGombEvenetDeclaration = False
 uGombProperties = {"prop"}
 uGombEvents = {"event"}
+propertyChange = False
 
 for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
    for name in files:
-      if name.startswith("w_"):
+      if not ".svn" in root:
          fileName = os.path.join(root, name)
-         print(fileName)
+         #print(fileName)
          with codecs.open(fileName, encoding='utf8') as f:
             for line in f:
                if uGomb:
@@ -58,7 +59,16 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                      #print(repr(line))
                      uGomb2Set.add(repr(line))
                      uGomb2Repeat = uGomb2Repeat + 1
-                  
+               
+               if (line.lower().strip().startswith("cb_") and "." in repr(line) and "=" in repr(line)):
+                  #print(fileName)
+                  if not "enabled" in line.lower() and not ".x" in line.lower() and not ".y" in line.lower() and not ".visible" in line.lower() and not ".taborder" in line.lower() and not ".bringtotop" in line.lower():
+                     propertyChange = True
+                     print(line.strip())
+            
+            if propertyChange:
+               print(fileName)
+               propertyChange = False
 buttonSet.remove("gomb1")
 uGombSet.remove("gomb1")
 uGomb2Set.remove("gomb1")
@@ -73,7 +83,7 @@ print("Number of u_gomb: " + str(len(uGombSet)))
 #print("Repeat: " + str(uGombRepeat))
 print("Number of u_gomb2: " + str(len(uGomb2Set)))
 #print("Repeat: " + str(uGomb2Repeat))
-
+'''
 print("\nu_gomb properties:")
 print("Count: " + str(len(uGombProperties)))
 for prop in uGombProperties:
@@ -83,4 +93,4 @@ print("\nu_gomb events:")
 print("Count: " + str(len(uGombEvents)))
 for event in uGombEvents:
    print(event)
-
+'''

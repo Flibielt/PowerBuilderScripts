@@ -13,8 +13,6 @@ uGomb = False
 skipLine = False
 uGombEvents = False
 setterFuncs = {""}
-defaultButtons = {""}
-cancelButtons = {""}
 
 for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
    for name in files:
@@ -38,38 +36,38 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                 #Convert some properties to setters
                 if uGomb:
                     if "int textsize" in line.lower() or "integer textsize" in line.lower():
-                        setterFuncs.add("this.set_textsize(" + line[line.find("= "):].strip() + ")")
+                        setterFuncs.add("this.set_textsize(" + line[line.find("="):].strip() + ")")
                         skipLine = True
                     elif "string text" in line.lower() or "string Text" in line:
-                        setterFuncs.add("this.set_text(" + line[line.find("= "):].strip() + ")")
+                        setterFuncs.add("this.set_text(" + line[line.find("="):].strip() + ")")
                         skipLine = True
                     elif "fontcharset fontcharset" in line.lower():
-                        setterFuncs.add("this.set_fontcharset(" + line[line.find("= "):].strip() + ")")
+                        setterFuncs.add("this.set_fontcharset(" + line[line.find("="):].strip() + ")")
                         skipLine = True
                     elif "fontfamily fontfamily" in line.lower():
-                        setterFuncs.add("this.set_fontfamily(" + line[line.find("= "):].strip() + ")")
+                        setterFuncs.add("this.set_fontfamily(" + line[line.find("="):].strip() + ")")
                         skipLine = True
                     elif "fontpitch fontpitch" in line.lower():
-                        setterFuncs.add("this.set_fontpitch(" + line[line.find("= "):].strip() + ")")
+                        setterFuncs.add("this.set_fontpitch(" + line[line.find("="):].strip() + ")")
                         skipLine = True
                     elif "string facename" in line.lower():
-                        setterFuncs.add("this.set_facename(" + line[line.find("= "):].strip() + ")")
+                        setterFuncs.add("this.set_facename(" + line[line.find("="):].strip() + ")")
                         skipLine = True
                     elif "integer weight" in line.lower() or "int weight" in line.lower():
-                        setterFuncs.add("this.set_weight(" + line[line.find("= "):].strip() + ")")
+                        setterFuncs.add("this.set_weight(" + line[line.find("="):].strip() + ")")
                         skipLine = True
                     elif "string powertiptext" in line.lower():
-                        setterFuncs.add("this.add_powertip(" + line[line.find("= "):].strip() + ")")
+                        setterFuncs.add("this.add_powertip(" + line[line.find("="):].strip() + ")")
                         skipLine = True
                     elif "string tag" in line.lower():
-                        setterFuncs.add("this.set_tag(" + line[line.find("= "):].strip() + ")")
+                        setterFuncs.add("this.set_tag(" + line[line.find("="):].strip() + ")")
                         skipLine = True
                     elif "boolean default" in line.lower():
-                        defaultButtons.add("button name")
+                        setterFuncs.add("this.set_default(" + line[line.find("="):].strip() + ")")
                         skipLine = True
                         #Add functionality
                     elif "boolean cancel" in line.lower():
-                        cancelButtons.add("button name")
+                        setterFuncs.add("this.set_cancel(" + line[line.find("="):].strip() + ")")
                         skipLine = True
                         #Add functionality
                     elif "boolean ib_ugomb2" in line.lower():
