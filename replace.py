@@ -11,6 +11,11 @@ class SetterInsertion(enum.Enum):
 setterInsertion = SetterInsertion.done
 uGomb = False
 uGombDeclaration = False
+widthChange = False
+heightChange = False
+defaultWidth = 347
+defaultHeight = 84
+buttons = {"button"}
 skipLine = False
 uGombEvents = False
 setterFuncs = {""}
@@ -26,23 +31,34 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
         outFile = "..\\out" + fileName[fileName.find("\\"):]
         os.makedirs(os.path.dirname(outFile), exist_ok=True)
         with codecs.open(fileName, encoding='utf8') as f:
+            buttons.clear()
             for line in f:
                 if "from u_gomb within" in line or "from commandbutton within" in line or "from u_ok_gomb within" in line or "from u_megsem_gomb within" in line:
                     line = line.replace("u_gomb", "u_dynamic_button")
                     line = line.replace("commandbutton", "u_dynamic_button")
                     line = line.replace("u_ok_gomb", "u_dynamic_button")
                     line = line.replace("u_megsem_gomb", "u_dynamic_button")
+                    if line in buttons:
+                        uGombDeclaration = True
+                    else:
+                        uGombDeclaration = False
+                    buttons.add(line)
                     uGomb = True
                     uGombEvents = False
+                    widthChange = False
+                    heightChange = False
                     if setterInsertion == SetterInsertion.wait:
                         setterInsertion = SetterInsertion.witchConstructor
                 elif "end type" in line and uGomb == True:
+                    if uGombDeclaration and not widthChange:
+                        line = "integer width = " + str(defaultWidth) + "\r" + line
+                    if uGombDeclaration and not heightChange:
+                        line = "integer height = " + str(defaultHeight) + "\r" + line
                     uGomb = False
                     uGombEvents = True
                     setterInsertion = SetterInsertion.wait
                 #Convert some properties to setters
                 elif uGomb:
-                    uGombDeclaration = True
                     if "int textsize" in line.lower() or "integer textsize" in line.lower():
                         setterFuncs.add("this.set_textsize(" + line[line.find("=") + 1:].strip() + ")")
                         skipLine = True
@@ -78,11 +94,17 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                         skipLine = True
                     elif "boolean ib_ugomb2" in line.lower():
                         skipLine = True
+                    elif "width" in line.lower():
+                        widthChange = True
+                    elif "height" in line.lower():
+                        heightChange = True
                         #More functionality?
                 
                 if uGombEvents:
                     if "event clicked;call super::clicked;" in line.lower():
                         line = line.replace("event clicked;call super::clicked;", "event u_click;call super::u_click;")
+                    elif "event clicked;" in line.lower():
+                        line = line.replace("event clicked;", "event u_click;call super::u_click;")
                     elif "event constructor;call super::constructor;" in line.lower() and uGombDeclaration:
                         setterInsertion = SetterInsertion.insert
                         uGombDeclaration = False
@@ -117,7 +139,7 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                                 f.write("\r")
                             f.write("end event")
                             f.write("\r")
-                            f.write("\r")
+                            f.write("\n")
                             f.write(line.rstrip())
                             f.write("\r")
                             setterFuncs.clear()
