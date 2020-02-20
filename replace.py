@@ -128,6 +128,9 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                     if not "enabled" in line.lower() and not ".x" in line.lower() and not ".y" in line.lower() and not ".visible" in line.lower() and not ".taborder" in line.lower() and not ".bringtotop" in line.lower():
                         line = line[:line.find("=") - 1].strip() + ".(" + line[line.find("=") + 1:].strip() + ")"
 
+                if "cb_" in line and ".event post clicked()" in line.lower():
+                    line = line.lower().replace("clicked()", "u_click(1, 1, 1)")
+
                 if not skipLine:
                     with open(outFile, "a") as f:
                         if setterInsertion == SetterInsertion.insert:
