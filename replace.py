@@ -11,15 +11,9 @@ class SetterInsertion(enum.Enum):
 setterInsertion = SetterInsertion.done
 uGomb = False
 uGombDeclaration = False
-widthChange = False
-heightChange = False
-defaultWidth = 347
-defaultHeight = 84
 buttons = {"button"}
 skipLine = False
 decleration = False
-declerationWithHeight = False
-declerationWithWidth = False
 elements = {""}
 uGombEvents = False
 setterFuncs = {""}
@@ -52,19 +46,11 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                     buttons.add(line)
                     uGomb = True
                     uGombEvents = False
-                    widthChange = False
-                    heightChange = False
                     if setterInsertion == SetterInsertion.wait:
                         setterInsertion = SetterInsertion.witchConstructor
                 elif "end type" in line and uGomb == True:
-                    if uGombDeclaration and not widthChange:
-                        line = "integer width = " + str(defaultWidth) + "\r\n" + line
-                    if uGombDeclaration and not heightChange:
-                        line = "integer height = " + str(defaultHeight) + "\r\n" + line
                     uGomb = False
                     uGombEvents = True
-                    widthChange = False
-                    heightChange = False
                     setterInsertion = SetterInsertion.wait
                 #Convert some properties to setters
                 elif uGomb:
