@@ -20,8 +20,6 @@ setterFuncs = {""}
 
 #todo: window szinten esc/enter esetén default/cacnel trigger
 #todo: property változás helyett setterek a deklarációkon kívül is
-#todo: cb_ok.Event Post Clicked() helyett cb_ok.Event Post u_click(1, 1, 1)
-#todo: width és height property legyen mindenhol
 
 for root, dirs, files in os.walk("..\\medikai", topdown=False):
    for name in files:
@@ -33,14 +31,14 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
         with codecs.open(fileName, encoding='utf8') as f:
             for line in f:
                 if "from u_gomb within" in line or "from commandbutton within" in line or "from u_ok_gomb within" in line or "from u_megsem_gomb within" in line or "from w_adatbevalap`cb_" in line:
-                    line = line.replace("u_gomb", "u_dynamic_button")
-                    line = line.replace("commandbutton", "u_dynamic_button")
-                    line = line.replace("u_ok_gomb", "u_dynamic_button")
-                    line = line.replace("u_megsem_gomb", "u_dynamic_button")
                     if "ok_gomb" in line:
                         okGomb = True
                     elif "megsem_gomb" in line:
                         megsemGomb = True
+                    line = line.replace("u_gomb", "u_dynamic_button")
+                    line = line.replace("commandbutton", "u_dynamic_button")
+                    line = line.replace("u_ok_gomb", "u_dynamic_button")
+                    line = line.replace("u_megsem_gomb", "u_dynamic_button")
                     uGomb = True
                     uGombEvents = False
                     if setterInsertion == SetterInsertion.wait:
@@ -103,9 +101,9 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                     elif "integer x" in line.lower() or "int x" in line.lower() or "integer y" in line.lower() or "int y" in line.lower():
                         setterFuncs.add("this.resize_inner_objects(this.width, this.height)")
                         if okGomb:
-                            setterFuncs.add("this.set_text(OK)")
+                            setterFuncs.add("this.set_text(\"OK\")")
                         elif megsemGomb:
-                            setterFuncs.add("this.set_text(Megsem)")
+                            setterFuncs.add("this.set_text(\"&M$$HEX1$$e900$$ENDHEX$$gsem\")")
                     
                 if uGombEvents:
                     if "event clicked;call super::clicked;" in line.lower():
@@ -139,6 +137,7 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                             for setter in setterFuncs:
                                 f.write(setter)
                                 f.write("\r")
+                                f.write("\n")
                             setterFuncs.clear()
                             setterInsertion = SetterInsertion.done
                         elif setterInsertion == SetterInsertion.witchConstructor and line.lower().startswith("type"):
@@ -153,6 +152,7 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                                 for setter in setterFuncs:
                                     f.write(setter)
                                     f.write("\r")
+                                    f.write("\n")
                                 f.write("end event")
                                 f.write("\r")
                                 f.write("\n")
