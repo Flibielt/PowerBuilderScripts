@@ -5,6 +5,7 @@ typeDeclaration = False
 endType = False
 widthProp = False
 heightProp = False
+typeDef = False
 typeName = ""
 
 for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
@@ -18,6 +19,7 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
             for line in f:
                 if line.strip().startswith("type"):
                     typeDeclaration = True
+                    typeDef = True
                     typeName = line.strip()
                 elif typeDeclaration:
                     if "end type" in line:
@@ -27,8 +29,10 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                         widthProp = True
                     elif "height" in line.lower():
                         heightProp = True
+                    else:
+                        typeDef = False
                 with open(outFile, "a") as f:
-                    if "cb_" in typeName and endType:
+                    if "cb_" in typeName and endType and not typeDef:
                         if widthProp == False:
                             f.write("integer width = 347\n")
                         if heightProp == False:
