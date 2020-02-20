@@ -11,6 +11,8 @@ class SetterInsertion(enum.Enum):
 setterInsertion = SetterInsertion.done
 uGomb = False
 uGombDeclaration = False
+okGomb = False
+megsemGomb = False
 skipLine = False
 decleration = False
 uGombEvents = False
@@ -35,11 +37,17 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                     line = line.replace("commandbutton", "u_dynamic_button")
                     line = line.replace("u_ok_gomb", "u_dynamic_button")
                     line = line.replace("u_megsem_gomb", "u_dynamic_button")
+                    if "ok_gomb" in line:
+                        okGomb = True
+                    elif "megsem_gomb" in line:
+                        megsemGomb = True
                     uGomb = True
                     uGombEvents = False
                     if setterInsertion == SetterInsertion.wait:
                         setterInsertion = SetterInsertion.witchConstructor
                 elif "end type" in line and uGomb == True:
+                    okGomb = False
+                    megsemGomb = False
                     uGomb = False
                     uGombEvents = True
                     setterInsertion = SetterInsertion.wait
@@ -94,6 +102,10 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                         skipLine = True
                     elif "integer x" in line.lower() or "int x" in line.lower() or "integer y" in line.lower() or "int y" in line.lower():
                         setterFuncs.add("this.resize_inner_objects(this.width, this.height)")
+                        if okGomb:
+                            setterFuncs.add("this.set_text(OK)")
+                        elif megsemGomb:
+                            setterFuncs.add("this.set_text(Megsem)")
                     
                 if uGombEvents:
                     if "event clicked;call super::clicked;" in line.lower():
