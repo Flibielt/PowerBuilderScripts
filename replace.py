@@ -119,12 +119,24 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                         uGombEvents = False
 
                 if (";cb_" in repr(line) and "." in repr(line) and "=" in repr(line)):
-                    if not "enabled" in line.lower() and not ".x" in line.lower() and not ".y" in line.lower() and not ".visible" in line.lower() and not ".taborder" in line.lower() and not ".bringtotop" in line.lower():
-                        line = line[:line.find("=") - 1].rstrip() + ".(" + line[line.find("=") + 1:].strip() + ")"
+                    if "default" in line.lower():
+                        print(line.strip())
+                        line = line.lower().replace(".default", ".set_default(")
+                        line = line[:line.find("=") - 1].rstrip() + line[line.find("=") + 1:].strip() + ")\n"
+                    elif "cancel" in line.lower():
+                        print(line.strip())
+                        line = line.lower().replace(".cancel", ".set_cancel(")
+                        line = line[:line.find("=") - 1].rstrip() + line[line.find("=") + 1:].strip() + ")\n"
                 
                 if (line.strip().startswith("cb_") and "." in repr(line) and "=" in repr(line)):
-                    if not "enabled" in line.lower() and not ".x" in line.lower() and not ".y" in line.lower() and not ".visible" in line.lower() and not ".taborder" in line.lower() and not ".bringtotop" in line.lower():
-                        line = line[:line.find("=") - 1].strip() + ".(" + line[line.find("=") + 1:].strip() + ")"
+                    if "default" in line.lower():
+                        print(line.strip())
+                        line = line.lower().replace(".default", ".set_default(")
+                        line = line[:line.find("=") - 1].rstrip() + line[line.find("=") + 1:].strip() + ")\n"
+                    elif "cancel" in line.lower():
+                        print(line.strip())
+                        line = line.lower().replace(".cancel", ".set_cancel(")
+                        line = line[:line.find("=") - 1].rstrip() + line[line.find("=") + 1:].strip() + ")\n"
 
                 if "cb_" in line and ".event post clicked()" in line.lower():
                     line = line.lower().replace("clicked()", "u_click(1, 1, 1)")
@@ -136,7 +148,6 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                             f.write("\n")
                             for setter in setterFuncs:
                                 f.write(setter)
-                                f.write("\r")
                                 f.write("\n")
                             setterFuncs.clear()
                             setterInsertion = SetterInsertion.done
@@ -151,15 +162,13 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                                 f.write("\r")
                                 for setter in setterFuncs:
                                     f.write(setter)
-                                    f.write("\r")
                                     f.write("\n")
                                 f.write("end event")
-                                f.write("\r")
                                 f.write("\n")
                                 setterFuncs.clear()
                             setterInsertion = SetterInsertion.done
                             f.write(line.rstrip())
-                            f.write("\r")
+                            f.write("\n")
                         else:
                             f.write(line.rstrip())
                             f.write("\n")
@@ -173,10 +182,10 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
             if validSetter:
                 with open(outFile, "a") as f:
                     f.write("event constructor;call super::constructor;")
-                    f.write("\r")
+                    f.write("\n")
                     for setter in setterFuncs:
                         f.write(setter)
-                        f.write("\r")
+                        f.write("\n")
                     f.write("end event")
                     f.write("\r")
                     f.write("\n")

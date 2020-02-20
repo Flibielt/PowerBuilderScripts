@@ -20,7 +20,8 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                     if "end type" in line:
                         buttonProp = False
                     else:
-                        
+                        if "default" in line:
+                            
                 
 
 for button in buttons:
