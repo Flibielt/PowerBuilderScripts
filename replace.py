@@ -96,6 +96,8 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                     elif "boolean ib_ugomb2" in line.lower():
                         setterFuncs.add("this.resize_inner_objects(this.width, this.height)")
                         skipLine = True
+                    elif "integer x" in line.lower() or "int x" in line.lower() or "integer y" in line.lower() or "int y" in line.lower():
+                        setterFuncs.add("this.resize_inner_objects(this.width, this.height)")
                     
                 if uGombEvents:
                     if "event clicked;call super::clicked;" in line.lower():
@@ -129,7 +131,12 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                             setterFuncs.clear()
                             setterInsertion = SetterInsertion.done
                         elif setterInsertion == SetterInsertion.witchConstructor and line.lower().startswith("type"):
-                            if len(setterFuncs) > 1:
+                            validSetter = False
+                            for setter in setterFuncs:
+                                if "this." in setter:
+                                    validSetter = True
+                            
+                            if validSetter:
                                 f.write("event constructor;call super::constructor;")
                                 f.write("\r")
                                 for setter in setterFuncs:
@@ -146,3 +153,21 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                             f.write(line.rstrip())
                             f.write("\n")
                 skipLine = False
+            
+            #If the button is the last element
+            validSetter = False
+            for setter in setterFuncs:
+                if "this." in setter:
+                    validSetter = True
+            if validSetter:
+                with open(outFile, "a") as f:
+                    f.write("event constructor;call super::constructor;")
+                    f.write("\r")
+                    for setter in setterFuncs:
+                        f.write(setter)
+                        f.write("\r")
+                    f.write("end event")
+                    f.write("\r")
+                    f.write("\n")
+                    setterFuncs.clear()
+                    setterInsertion = SetterInsertion.done
