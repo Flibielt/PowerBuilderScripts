@@ -11,10 +11,8 @@ class SetterInsertion(enum.Enum):
 setterInsertion = SetterInsertion.done
 uGomb = False
 uGombDeclaration = False
-buttons = {"button"}
 skipLine = False
 decleration = False
-elements = {""}
 uGombEvents = False
 setterFuncs = {""}
 
@@ -31,14 +29,12 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
         outFile = "..\\out" + fileName[fileName.find("\\"):]
         os.makedirs(os.path.dirname(outFile), exist_ok=True)
         with codecs.open(fileName, encoding='utf8') as f:
-            buttons.clear()
             for line in f:
                 if "from u_gomb within" in line or "from commandbutton within" in line or "from u_ok_gomb within" in line or "from u_megsem_gomb within" in line or "from w_adatbevalap`cb_" in line:
                     line = line.replace("u_gomb", "u_dynamic_button")
                     line = line.replace("commandbutton", "u_dynamic_button")
                     line = line.replace("u_ok_gomb", "u_dynamic_button")
                     line = line.replace("u_megsem_gomb", "u_dynamic_button")
-                    buttons.add(line)
                     uGomb = True
                     uGombEvents = False
                     if setterInsertion == SetterInsertion.wait:
