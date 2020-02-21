@@ -16,6 +16,8 @@ megsemGomb = False
 skipLine = False
 decleration = False
 uGombEvents = False
+clickEvent = False
+clickEventIfInserted = False
 setterFuncs = {""}
 
 #todo: window szinten esc/enter esetén default/cacnel trigger
@@ -108,8 +110,12 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                 if uGombEvents:
                     if "event clicked;call super::clicked;" in line.lower():
                         line = line.replace("event clicked;call super::clicked;", "event u_click;call super::u_click;")
+                        clickEvent = True
+                        clickEventIfInserted = False
                     elif "event clicked;" in line.lower():
                         line = line.replace("event clicked;", "event u_click;call super::u_click;")
+                        clickEvent = True
+                        clickEventIfInserted = False
                     elif "event constructor;call super::constructor;" in line.lower():
                         setterInsertion = SetterInsertion.insert
                     elif line.strip().startswith("type") and setterInsertion == SetterInsertion.wait:
@@ -172,6 +178,22 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                         else:
                             f.write(line.rstrip())
                             f.write("\n")
+                            if clickEvent:
+                                if not clickEventIfInserted and "." in line or "(" in line or "=" in line:
+                                    if ";" in line:
+                                        line = line.replace("u_click;", "u_click; if this.enabled = true and (isNull(flags) or (flags = 5 and this.is_cancel()) or (flags = 6 and this.is_default())) then")
+                                        f.write(line.rstrip())
+                                        f.write("\n")
+                                        clickEventIfInserted = True
+                                    else:
+                                        f.write("if this.enabled = true and (isNull(flags) or (flags = 5 and this.is_cancel()) or (flags = 6 and this.is_default())) then\n")
+                                        f.write(line)
+                                        clickEventIfInserted = True
+                                elif "end event" in line:
+                                    f.write("end if\n")
+                                    f.write(line.rstrip())
+                                    f.write("\n")
+                                    clickEvent = False             
                 skipLine = False
             
             #If the button is the last element
