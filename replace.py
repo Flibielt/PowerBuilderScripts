@@ -126,21 +126,17 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
 
                 if (";cb_" in repr(line) and "." in repr(line) and "=" in repr(line)):
                     if "default" in line.lower():
-                        print(line.strip())
                         line = line.lower().replace(".default", ".set_default(")
                         line = line[:line.find("=") - 1].rstrip() + line[line.find("=") + 1:].strip() + ")\n"
                     elif "cancel" in line.lower():
-                        print(line.strip())
                         line = line.lower().replace(".cancel", ".set_cancel(")
                         line = line[:line.find("=") - 1].rstrip() + line[line.find("=") + 1:].strip() + ")\n"
                 
                 if (line.strip().startswith("cb_") and "." in repr(line) and "=" in repr(line)):
                     if "default" in line.lower():
-                        print(line.strip())
                         line = line.lower().replace(".default", ".set_default(")
                         line = line[:line.find("=") - 1].rstrip() + line[line.find("=") + 1:].strip() + ")\n"
                     elif "cancel" in line.lower():
-                        print(line.strip())
                         line = line.lower().replace(".cancel", ".set_cancel(")
                         line = line[:line.find("=") - 1].rstrip() + line[line.find("=") + 1:].strip() + ")\n"
 
