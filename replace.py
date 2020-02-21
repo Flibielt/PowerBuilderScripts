@@ -172,12 +172,10 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                             f.write(line.rstrip())
                             f.write("\n")
                         else:
-                            f.write(line.rstrip())
-                            f.write("\n")
                             if clickEvent:
                                 if not clickEventIfInserted and "." in line or "(" in line or "=" in line:
                                     if ";" in line:
-                                        line = line.replace("u_click;", "u_click; if this.enabled = true and (isNull(flags) or (flags = 5 and this.is_cancel()) or (flags = 6 and this.is_default())) then")
+                                        line = line.replace("super::u_click;", "super::u_click; if this.enabled = true and (isNull(flags) or (flags = 5 and this.is_cancel()) or (flags = 6 and this.is_default())) then\n")
                                         f.write(line.rstrip())
                                         f.write("\n")
                                         clickEventIfInserted = True
@@ -189,7 +187,10 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                                     f.write("end if\n")
                                     f.write(line.rstrip())
                                     f.write("\n")
-                                    clickEvent = False             
+                                    clickEvent = False
+                            else:
+                                f.write(line.rstrip())
+                                f.write("\n")
                 skipLine = False
             
             #If the button is the last element
