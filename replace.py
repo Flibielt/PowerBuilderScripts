@@ -33,9 +33,9 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
         with codecs.open(fileName, encoding='utf8') as f:
             for line in f:
                 if "from u_gomb within" in line or "from commandbutton within" in line or "from u_ok_gomb within" in line or "from u_megsem_gomb within" in line or "from w_adatbevalap`cb_" in line:
-                    if "ok_gomb" in line:
+                    if "ok_gomb" in line or "_ok" in line:
                         okGomb = True
-                    elif "megsem_gomb" in line:
+                    elif "megsem" in line:
                         megsemGomb = True
                     line = line.replace("u_gomb", "u_dynamic_button")
                     line = line.replace("commandbutton", "u_dynamic_button")
@@ -108,12 +108,12 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                             setterFuncs.add("this.set_text(\"&M$$HEX1$$e900$$ENDHEX$$gsem\")")
                     
                 if uGombEvents:
-                    if "event clicked;call super::clicked;" in line.lower():
-                        line = line.replace("event clicked;call super::clicked;", "event u_click;call super::u_click;")
+                    if "clicked;call super::clicked;" in line.lower():
+                        line = line.replace("clicked;call super::clicked;", "u_click;call super::u_click;")
                         clickEvent = True
                         clickEventIfInserted = False
-                    elif "event clicked;" in line.lower():
-                        line = line.replace("event clicked;", "event u_click;call super::u_click;")
+                    elif "clicked;" in line.lower():
+                        line = line.replace("clicked;", "u_click;call super::u_click;")
                         clickEvent = True
                         clickEventIfInserted = False
                     elif "event constructor;call super::constructor;" in line.lower():
