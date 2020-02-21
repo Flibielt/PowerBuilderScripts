@@ -173,7 +173,7 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                             f.write("\n")
                         else:
                             if clickEvent:
-                                if not clickEventIfInserted and ("." in line or "(" in line or "=" in line):
+                                if not clickEventIfInserted and ("." in line or "(" in line or "=" in line or "halt" in line.lower()):
                                     if "super::u_click;" in line:
                                         line = line.replace("super::u_click;", "super::u_click; if this.enabled = true and (isNull(flags) or (flags = 5 and this.is_cancel()) or (flags = 6 and this.is_default())) then\n")
                                         f.write(line.rstrip())
