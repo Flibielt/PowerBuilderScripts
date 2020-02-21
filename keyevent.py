@@ -2,7 +2,6 @@ import codecs
 import os
 
 buttons = {""}
-buttonProp = False
 
 for root, dirs, files in os.walk("..\\medikai", topdown=False):
    for name in files:
@@ -22,11 +21,21 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                 with open(outFile, "a") as f:
                     if "end on" in line:
                         endCount = endCount + 1
+                    elif endCount == 2:
+                        f.write("event key;IF keyflags = 0 THEN\n")
+                        f.write("	IF key = KeyEscape! THEN\n")
+                        for button in buttons:
+                            f.write("		" + button + ".event post u_click(5, 1, 1)\n")
+                        f.write("	ELSEIF key = KeyEnter! THEN\n")
+                        for button in buttons:
+                            f.write("		" + buttons + ".event post u_click(6, 1, 1)\n")
+                        f.write("	END IF\n")
+                        f.write("END IF\n")
+                        f.write("end event\n")
+                        endCount = 3
+                        f.write(line.rstrip())
+                        f.write("\n")
+                    else:
+                        f.write(line.rstrip())
+                        f.write("\n")
                     
-                    if endCount == 2:
-                        print("Insert key event")
-
-
-
-for button in buttons:
-    print(button)
