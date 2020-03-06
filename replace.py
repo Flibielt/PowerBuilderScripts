@@ -25,7 +25,7 @@ setterFuncs = {""}
 
 for root, dirs, files in os.walk("..\\medikai", topdown=False):
    for name in files:
-      if name.startswith("w_"):
+      if name.startswith("w_") or name.startswith("u"):
         fileName = os.path.join(root, name)
         print(fileName)
         outFile = "..\\out2" + fileName[fileName.find("\\"):]
@@ -143,6 +143,8 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                         line = line[:line.find("=") - 1].rstrip() + line[line.find("=") + 1:].strip() + ")\n"
 
                 if "cb_" in line and ".event post clicked()" in line.lower():
+                    line = line.lower().replace("clicked()", "u_click(1, 1, 1)")
+                elif "cb_" in line and ".event clicked()" in line.lower():
                     line = line.lower().replace("clicked()", "u_click(1, 1, 1)")
 
                 if not skipLine:
