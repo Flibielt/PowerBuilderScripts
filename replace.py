@@ -64,15 +64,15 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                         setterFuncs.add("this.resize_inner_objects(this.width, this.height)")
                         skipLine = True
                     elif "fontcharset fontcharset" in line.lower():
-                        setterFuncs.add("this.set_fontcharset(" + line[line.find("=") + 1:].strip() + ")")
+                        setterFuncs.add("this.set_fontcharset(\"" + line[line.find("=") + 1:].strip() + "\")")
                         setterFuncs.add("this.resize_inner_objects(this.width, this.height)")
                         skipLine = True
                     elif "fontfamily fontfamily" in line.lower():
-                        setterFuncs.add("this.set_fontfamily(" + line[line.find("=") + 1:].strip() + ")")
+                        setterFuncs.add("this.set_fontfamily(\"" + line[line.find("=") + 1:].strip() + "\")")
                         setterFuncs.add("this.resize_inner_objects(this.width, this.height)")
                         skipLine = True
                     elif "fontpitch fontpitch" in line.lower():
-                        setterFuncs.add("this.set_fontpitch(" + line[line.find("=") + 1:].strip() + ")")
+                        setterFuncs.add("this.set_fontpitch(\"" + line[line.find("=") + 1:].strip() + "\")")
                         setterFuncs.add("this.resize_inner_objects(this.width, this.height)")
                         skipLine = True
                     elif "string facename" in line.lower():
