@@ -23,7 +23,7 @@ setterFuncs = {""}
 #todo: window szinten esc/enter esetén default/cacnel trigger
 #todo: property változás helyett setterek a deklarációkon kívül is
 
-for root, dirs, files in os.walk("..\\medikai", topdown=False):
+for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
    for name in files:
       if name.startswith("w_") or name.startswith("u"):
         fileName = os.path.join(root, name)
@@ -32,7 +32,7 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
         os.makedirs(os.path.dirname(outFile), exist_ok=True)
         with codecs.open(fileName, encoding='utf8') as f:
             for line in f:
-                if "from u_gomb within" in line or "from commandbutton within" in line or "from u_ok_gomb within" in line or "from u_megsem_gomb within" in line or "from w_adatbevalap`cb_" in line:
+                if "from u_gomb within" in line or "from commandbutton within" in line or "from u_ok_gomb within" in line or "from u_megsem_gomb within" in line or "from w_adatbevalap`cb_" in line or "from picturebutton":
                     if "ok_gomb" in line or "_ok" in line:
                         okGomb = True
                     elif "megsem" in line:
@@ -127,24 +127,29 @@ for root, dirs, files in os.walk("..\\medikai", topdown=False):
                         uGombEvents = False
 
                 if (";cb_" in repr(line) and "." in repr(line) and "=" in repr(line)):
-                    if "default" in line.lower():
+                    if ".default" in line.lower():
                         line = line.lower().replace(".default", ".set_default(")
                         line = line[:line.find("=") - 1].rstrip() + line[line.find("=") + 1:].strip() + ")\n"
-                    elif "cancel" in line.lower():
+                    elif ".cancel" in line.lower():
                         line = line.lower().replace(".cancel", ".set_cancel(")
                         line = line[:line.find("=") - 1].rstrip() + line[line.find("=") + 1:].strip() + ")\n"
                 
                 if (line.strip().startswith("cb_") and "." in repr(line) and "=" in repr(line)):
-                    if "default" in line.lower():
+                    if ".default" in line.lower():
                         line = line.lower().replace(".default", ".set_default(")
                         line = line[:line.find("=") - 1].rstrip() + line[line.find("=") + 1:].strip() + ")\n"
-                    elif "cancel" in line.lower():
+                    elif ".cancel" in line.lower():
                         line = line.lower().replace(".cancel", ".set_cancel(")
                         line = line[:line.find("=") - 1].rstrip() + line[line.find("=") + 1:].strip() + ")\n"
 
                 if "cb_" in line and ".event post clicked()" in line.lower():
                     line = line.lower().replace("clicked()", "u_click(1, 1, 1)")
                 elif "cb_" in line and ".event clicked()" in line.lower():
+                    line = line.lower().replace("clicked()", "u_click(1, 1, 1)")
+
+                if "pb_" in line and ".event post clicked()" in line.lower():
+                    line = line.lower().replace("clicked()", "u_click(1, 1, 1)")
+                elif "pb_" in line and ".event clicked()" in line.lower():
                     line = line.lower().replace("clicked()", "u_click(1, 1, 1)")
 
                 if not skipLine:
