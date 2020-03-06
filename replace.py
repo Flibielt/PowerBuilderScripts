@@ -118,6 +118,14 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                         line = line.replace("clicked;", "u_click;call super::u_click;")
                         clickEvent = True
                         clickEventIfInserted = False
+                    elif "event cb_ok::clicked" in line.lower():
+                        line = line.replace("event cb_ok::clicked;", "event cb_ok::u_click;")
+                        clickEvent = True
+                        clickEventIfInserted = False
+                    elif "event cb_ok::clicked;call super::clicked;" in line.lower():
+                        line = line.replace("event cb_ok::clicked;call super::clicked;", "event cb_ok::u_click;")
+                        clickEvent = True
+                        clickEventIfInserted = False
                     elif "event constructor;call super::constructor;" in line.lower():
                         setterInsertion = SetterInsertion.insert
                     elif line.strip().startswith("type") and setterInsertion == SetterInsertion.wait:
