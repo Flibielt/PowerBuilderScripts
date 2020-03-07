@@ -13,7 +13,7 @@ for root, dirs, files in os.walk("folderName", topdown=False):
             for line in f:
                 if "from u_dynamic_button" in line:
                     dynamicButton = True
-                elif "from" in line and "dynamic_button" not in line:
+                elif " from " in line and "dynamic_button" not in line:
                     dynamicButton = False
                 elif dynamicButton:
                     if line.strip().startswith("event") and "clicked" in line:
