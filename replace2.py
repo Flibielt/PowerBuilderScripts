@@ -3,7 +3,7 @@ import os
 
 for root, dirs, files in os.walk(".\\", topdown=False):
    for name in files:
-      if name.startswith("asd") or name.startswith("u"):
+      if name.startswith("w_") or name.startswith("u"):
         fileName = os.path.join(root, name)
         print(fileName)
         outFile = "out" + fileName[fileName.find("\\"):]
