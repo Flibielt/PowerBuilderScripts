@@ -13,13 +13,15 @@ for root, dirs, files in os.walk(".\\", topdown=False):
             for line in f:
                 if "from u_dynamic_button" in line:
                     dynamicButton = True
-                #elif " from " in line and "u_dynamic_button" not in line:
-                    #dynamicButton = False
+                if "`" in line:
+                    # cb: CommandButton
+                    # pb: PictureButton
+                    if "type cb_" in line or "type pb_" in line:
+                        dynamicButton = True
                 if dynamicButton == True:
-                    if line.strip().startswith("event") and "clicked" in line:
+                    if line.strip().startswith("event") and "clicked" in line and "doubleclicked" not in line:
                        line = line.replace("clicked", "u_click")
                        dynamicButton = False
-                #line = line.replace("clicked", "u_click")
                 if "u_dynamic_button2" in line:
                     line = line.replace("u_dynamic_button2", "u_dynamic_button")
                 
