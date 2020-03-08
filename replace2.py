@@ -22,6 +22,9 @@ for root, dirs, files in os.walk(".\\", topdown=False):
                     if line.strip().startswith("event") and "clicked" in line and "doubleclicked" not in line:
                        line = line.replace("clicked", "u_click")
                        dynamicButton = False
+                    if line.strip().startswith("event") and "ue_postclicked" in line:
+                        line = line.replace("ue_postclicked", "u_click")
+                        dynamicButton = False
                 if "u_dynamic_button2" in line:
                     line = line.replace("u_dynamic_button2", "u_dynamic_button")
                 
