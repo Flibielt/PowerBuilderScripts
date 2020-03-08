@@ -25,6 +25,15 @@ for root, dirs, files in os.walk(".\\", topdown=False):
                 if "u_dynamic_button2" in line:
                     line = line.replace("u_dynamic_button2", "u_dynamic_button")
                 
+                if ".of_init_pbuo" in line.lower():
+                    line = "//" + line
+                
+                if ".textsize" in line.lower() and "=" in line:
+                    if "pb_" in line or "cb_" in line:
+                        line = line.lower.lower().replace(".textsize", ".set_textsize(")
+                        line = line.replace.replace("=", "")
+                        line = line.rstrip() + ")"
+                
                 with open(outFile, "a") as f:
                     f.write(line.rstrip())
                     f.write("\n")
