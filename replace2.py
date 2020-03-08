@@ -37,6 +37,10 @@ for root, dirs, files in os.walk(".\\", topdown=False):
                         line = line.replace.replace("=", "")
                         line = line.rstrip() + ")"
                 
+                if " cb_" in line.lower() or " pb_" in line.lower():
+                    if ".event" in line.lower() and "clicked()" in line.lower():
+                        line = line.lower().replace("clicked()", "u_click(1, 1, 1)")
+
                 with open(outFile, "a") as f:
                     f.write(line.rstrip())
                     f.write("\n")
