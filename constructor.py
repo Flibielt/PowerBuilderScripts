@@ -67,7 +67,8 @@ for root, dirs, files in os.walk("proba", topdown=False):
                                 insertSetter = True
                         elif dynamicButton == False and len(constProp) > 1:
                             insertConst = True
-                        elif insertSetter == True:
+                        
+                        if insertSetter == True:
                             f.write(line.rstrip())
                             f.write("\n")
                             for settter in constProp:
