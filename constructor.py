@@ -19,6 +19,10 @@ for root, dirs, files in os.walk("proba", topdown=False):
                 if " from u_dynamic_button within ":
                     dynamicButton = True
                     dynamicButtonProp = True
+                elif " cb_" in line.lower() or " pb_" in line.lower():
+                    if "`" in line.lower():
+                        dynamicButton = True
+                        dynamicButtonProp = True
                 
                 if dynamicButtonProp == True:
                     if "textsize" in line.lower() and "=" in line:
@@ -70,7 +74,7 @@ for root, dirs, files in os.walk("proba", topdown=False):
                                 f.write(setter)
                                 f.write("\n")
                             constProp.clear()
-                            
+
                             f.write("end event")
                             f.write("\n")
                             f.write("\n")
