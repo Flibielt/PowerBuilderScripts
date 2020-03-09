@@ -36,8 +36,8 @@ for root, dirs, files in os.walk(".\\", topdown=False):
                 
                 if ".textsize" in line.lower() and "=" in line:
                     if "pb_" in line or "cb_" in line or " l_cbu " in line or " l_ugomb " in line:
-                        line = line.lower.lower().replace(".textsize", ".set_textsize(")
-                        line = line.replace.replace("=", "")
+                        line = line.lower().replace(".textsize", ".set_textsize(")
+                        line = line.replace("=", "")
                         line = line.rstrip() + ")"
                 
                 if " cb_" in line.lower() or " pb_" in line.lower():
