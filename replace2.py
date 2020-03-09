@@ -19,7 +19,7 @@ for root, dirs, files in os.walk(".\\", topdown=False):
                     if "type cb_" in line or "type pb_" in line:
                         dynamicButton = True
                 if dynamicButton == True:
-                    if line.strip().startswith("event") and "clicked" in line and "doubleclicked" not in line:
+                    if line.strip().startswith("event") and "clicked" in line and "doubleclicked" not in line and "rightclicked" not in line:
                        line = line.replace("clicked", "u_click")
                        dynamicButton = False
                 if "u_dynamic_button2" in line:
