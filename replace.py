@@ -38,7 +38,7 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                     elif "megsem" in line:
                         megsemGomb = True
                     line = line.replace("u_gomb", "u_dynamic_button")
-                    line = line.replace("commandbutton", "u_dynamic_button")
+                    line = line.replace(" commandbutton ", "u_dynamic_button")
                     line = line.replace("picturebutton", "u_dynamic_button")
                     line = line.replace("u_ok_gomb", "u_dynamic_button")
                     line = line.replace("u_megsem_gomb", "u_dynamic_button")
