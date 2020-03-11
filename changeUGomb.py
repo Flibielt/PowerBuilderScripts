@@ -11,7 +11,7 @@ for root, dirs, files in os.walk("folderName", topdown=False):
         uGomb = False
         with codecs.open(fileName, encoding='utf8') as f:
             for line in f:
-                if " from u_gomb " in line:
+                if " from u_gomb " in line or " from commandbutton " in line or " from picturebutton " in line:
                     line = line.replace("u_gomb", "u_dynamic_button")
                     uGomb = True
                 elif " from " in line and " u_gomb " not in line:
