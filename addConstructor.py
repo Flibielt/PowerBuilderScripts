@@ -64,6 +64,6 @@ for root, dirs, files in os.walk("folderName", topdown=False):
 
                     if not skipLine:
                         with open(outFile, "a") as fOut:
-                            fOut.write(line.rstrip)
+                            fOut.write(line.rstrip())
                             fOut.write("\n")
                     
