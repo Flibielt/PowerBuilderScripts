@@ -21,5 +21,26 @@ for root, dirs, files in os.walk("folderName", topdown=False):
                         button = False
                     elif button:
                         if "constructor" in lastLine.lower():
-                            with
+                            if len(props) > 0:
+                                with open(outFile, "a") as fOut:
+                                    for setter in props:
+                                        fOut.write(setter)
+                                        fOut.write("\n")
+                                button = False
+                        elif " type " in line and " from " in line:
+                            if len(props) > 0:
+                                with open(outFile, "a") as fOut:
+                                    fOut.write("event constructor;call super::constructor;")
+                                    fOut.write("\n")
+                                    for setter in props:
+                                        fOut.write(setter)
+                                        fOut.write("\n")
+                                    fOut.write("end event")
+                                    fOut.write("\n")
+                                    fOut.write("\n")
                     lastLine = line
+
+                    with open(outFile, "a") as fOut:
+                        fOut.write(line.rstrip)
+                        fOut.write("\n")
+                    
