@@ -17,7 +17,7 @@ for root, dirs, files in os.walk("folderName", topdown=False):
                     button = False
                 
                 if button:
-                    if " clicked " in line.lower() and "::clicked" in line.lower():
+                    if " clicked " in line.lower() or "::clicked" in line.lower() or " clicked;" in line.lower():
                         line.replace("clicked", "u_click")
                 
                 with open(outFile, "a") as f:
