@@ -11,6 +11,7 @@ for root, dirs, files in os.walk("folderName", topdown=False):
             lastLine = ""
             props = {""}
             button = False
+            skipLine = False
             with codecs.open(fileName, encoding='utf8') as f:
                 for line in f:
                     if " from u_dynamic_button " in line:
@@ -23,16 +24,22 @@ for root, dirs, files in os.walk("folderName", topdown=False):
 
                         if "integer textsize" in line.lower() or "int textsize" in line.lower():
                             props.add("this.set_textsize(" + line[line.find("=") + 1:].strip() + ")")
+                            skipLine = True
                         elif "string powertiptext" in line.lower():
                             props.add("this.add_powertip(" + line[line.find("=") + 1:].strip() + ")")
+                            skipLine = True
                         elif "string text" in line.lower():
                             props.add("this.set_text(" + line[line.find("=") + 1:].strip() + ")")
+                            skipLine = True
                         elif "string tag" in line.lower():
                             props.add("this.set_tag(" + line[line.find("=") + 1:].strip() + ")")
+                            skipLine = True
                         elif "boolean default" in line.lower():
                             props.add("this.set_default(" + line[line.find("=") + 1:].strip() + ")")
+                            skipLine = True
                         elif "boolean cancel" in line.lower():
                             props.add("this.set_cancel(" + line[line.find("=") + 1:].strip() + ")")
+                            skipLine = True
 
                         if "constructor" in lastLine.lower():
                             if len(props) > 0:
@@ -55,7 +62,8 @@ for root, dirs, files in os.walk("folderName", topdown=False):
                         
                     lastLine = line
 
-                    with open(outFile, "a") as fOut:
-                        fOut.write(line.rstrip)
-                        fOut.write("\n")
+                    if not skipLine:
+                        with open(outFile, "a") as fOut:
+                            fOut.write(line.rstrip)
+                            fOut.write("\n")
                     
