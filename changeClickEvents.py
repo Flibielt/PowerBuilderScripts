@@ -8,19 +8,17 @@ for root, dirs, files in os.walk("folderName", topdown=False):
         print(fileName)
         outFile = "out" + fileName[fileName.find("\\"):]
         os.makedirs(os.path.dirname(outFile), exist_ok=True)
-        uGomb = False
+        button = False
         with codecs.open(fileName, encoding='utf8') as f:
             for line in f:
-                if " from u_gomb " in line:
-                    line = line.replace("u_gomb", "u_dynamic_button")
-                    uGomb = True
-                elif " from " in line and " u_gomb " not in line:
-                    uGomb = False
+                if " type cb_" in line or " type pb_" in line:
+                    button = True
+                elif " type " in line:
+                    button = False
                 
-                if uGomb:
+                if button:
                     if " clicked " in line.lower() and "::clicked" in line.lower():
                         line.replace("clicked", "u_click")
                 
                 with open(outFile, "a") as f:
                     f.write(line.rstrip())
-
