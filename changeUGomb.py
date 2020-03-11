@@ -23,4 +23,5 @@ for root, dirs, files in os.walk("folderName", topdown=False):
                 
                 with open(outFile, "a") as f:
                     f.write(line.rstrip())
+                    f.write("\n")
 
