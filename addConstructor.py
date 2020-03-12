@@ -67,6 +67,12 @@ for root, dirs, files in os.walk("folderName", topdown=False):
                     if "from u_dynamic_button" in line:
                         button = True
                         props.add("this.resize_inner_objects(this.width, this.height)")
+                        if "type cb_ok" in line:
+                            props.add("this.set_text(\"OK\")")
+                            props.add("this.set_default(true)")
+                        elif "type cb_megsem" in line:
+                            props.add("this.set_text(\"M$$HEX1$$e900$$ENDHEX$$gsem\")")
+                            props.add("this.set_cancel(true)")
                     elif "end type" in line and "from u_dynamic_button" in lastLine:
                         props.clear()
                         button = False
