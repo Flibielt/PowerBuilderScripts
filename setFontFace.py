@@ -13,4 +13,10 @@ for root, dirs, files in os.walk("folderName", topdown=False):
         os.makedirs(os.path.dirname(outFile), exist_ok=True)
         with codecs.open(fileName, encoding='utf8') as f:
             for line in f:
-                print(line)
+                for font in oldFonts:
+                    if font in line:
+                        line.replace(font, newFont)
+                
+                with open(outFile, "a") as fOut:
+                    fOut.write(line.rstrip())
+                    fOut.write("\n")
