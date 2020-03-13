@@ -32,7 +32,7 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
         os.makedirs(os.path.dirname(outFile), exist_ok=True)
         with codecs.open(fileName, encoding='utf8') as f:
             for line in f:
-                if "from u_gomb within" in line or "from commandbutton within" in line or "from u_ok_gomb within" in line or "from u_megsem_gomb within" in line or "from w_adatbevalap`cb_" in line or "from picturebutton" or "uov_gomb" in line or "uov_ok_gomb" in line:
+                if "from u_gomb within" in line or "from commandbutton within" in line or "from u_ok_gomb within" in line or "from u_megsem_gomb within" in line or "from w_adatbevalap`cb_" in line or "from picturebutton" or "uov_gomb" in line or "uov_ok_gomb" in line or "from u_kk_button" in line:
                     if "ok_gomb" in line or "_ok" in line:
                         okGomb = True
                     elif "megsem" in line:
@@ -44,6 +44,7 @@ for root, dirs, files in os.walk("..\\mc2svn17UD", topdown=False):
                     line = line.replace("u_megsem_gomb", "u_dynamic_button")
                     line = line.replace("uov_gomb", "u_dynamic_button")
                     line = line.replace("uov_ok_gomb", "u_dynamic_button")
+                    line = line.replace("u_kk_button", "u_dynamic_button")
                     uGomb = True
                     uGombEvents = False
                     if setterInsertion == SetterInsertion.wait:
