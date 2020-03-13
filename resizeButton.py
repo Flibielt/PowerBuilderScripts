@@ -1,8 +1,8 @@
 import codecs
 import os
 
-defaultWidth = 200
-defaultHeight = 120
+defaultWidth = 539
+defaultHeight = 100
 
 for root, dirs, files in os.walk("folderName", topdown=False):
    for name in files:
