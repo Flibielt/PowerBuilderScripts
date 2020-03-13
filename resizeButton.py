@@ -39,10 +39,14 @@ for root, dirs, files in os.walk("proba", topdown=False):
                     if button:
                         if "integer width" in line.lower() or "int width" in line.lower():
                             isWidth = True
-                            line = line[:line.find("=")] + "= " + str(defaultWidth)
+                            width = line[line.find("=") + 1:]
+                            if int(width.strip()) > 90:
+                                line = line[:line.find("=")] + "= " + str(defaultWidth)
                         elif "integer height" in line.lower() or "int height" in line.lower():
                             isHeight = True
-                            line = line[:line.find("=")] + "= " + str(defaultHeight)
+                            height = line[line.find("=") + 1:]
+                            if int(height.strip()) > 90:
+                                line = line[:line.find("=")] + "= " + str(defaultHeight)
                     
                     with open(outFile, "a") as fOut:
                         fOut.write(line.rstrip())
