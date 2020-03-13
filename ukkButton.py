@@ -13,6 +13,7 @@ for root, dirs, files in os.walk("folder", topdown=False):
             button = False
             with codecs.open(fileName, encoding='utf8') as f:
                 for line in f:
+                    skipLine = False
                     if button and " from " in line:
                         validConst = False
                         for setter in setters:
@@ -36,7 +37,7 @@ for root, dirs, files in os.walk("folder", topdown=False):
                         line = line.replace("u_kk_commandbutton_bezar", "u_dynamic_button")
                         line = line.replace("u_kk_commandbutton", "u_dynamic_button")
                         setters.add("this.resize_inner_objects(this.width, this.height)")
-                    elif "end type" in line and " within " in line:
+                    elif "end type" in line and " within " in lastLine:
                         setters.clear()
                         button = False
                     elif button:
@@ -74,6 +75,12 @@ for root, dirs, files in os.walk("folder", topdown=False):
                                     fOut.write("\n")
                             setters.clear()
                             button = False
+                    
+                    lastLine = line
+                    if not skipLine:
+                        with open(outFile, "a") as fOut:
+                            fOut.write(line.rstrip())
+                            fOut.write("\n")
                 
                 if button:
                     validConst = False
