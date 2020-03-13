@@ -1,6 +1,10 @@
 import codecs
 import os
 
+oldFonts = {"MS Sans Serif", "Courier New CE", "Arial CE", "Arial", "Microsoft Sans Serif", "@Arial Unicode MS", "Arial Unicode MS", "Tahoma", "Garamond", "Courier New"}
+newFont = "DINPro-Medium"
+# Webdings, Windings, Fixedsys  ??
+
 for root, dirs, files in os.walk("folderName", topdown=False):
    for name in files:
         fileName = os.path.join(root, name)
