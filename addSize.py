@@ -27,7 +27,7 @@ for root, dirs, files in os.walk("folderName", topdown=False):
                                 with open(outFile, "a") as fOut:
                                     fOut.write("integer width = " + str(defaultWidth))
                                     fOut.write("\n")
-                            elif not isHeightProp:
+                            if not isHeightProp:
                                 with open(outFile, "a") as fOut:
                                     fOut.write("integer height = " + str(defaultHeight))
                                     fOut.write("\n")
@@ -37,6 +37,7 @@ for root, dirs, files in os.walk("folderName", topdown=False):
                 elif " from u_dynamic_button within " in line:
                     button = True
 
+                lastLine = line
                 with open(outFile, "a") as fOut:
                     fOut.write(line.rstrip())
                     fOut.write("\n")
