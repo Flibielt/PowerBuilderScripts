@@ -34,7 +34,7 @@ for root, dirs, files in os.walk("folderName", topdown=False):
                         button = False
                         isWidthProp = False
                         isHeightProp = False
-                elif " from u_dynamic_button within " in line:
+                elif " from u_dynamic_button within " in line or "`cb_" in line or "`pb_" in line:
                     button = True
 
                 lastLine = line
