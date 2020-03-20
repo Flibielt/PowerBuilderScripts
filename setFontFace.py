@@ -1,8 +1,8 @@
 import codecs
 import os
 
-oldFonts = {"MS Sans Serif", "Courier New CE", "Arial CE", "Arial", "Microsoft Sans Serif", "@Arial Unicode MS",
-            "Arial Unicode MS", "Tahoma", "Garamond", "Courier New", "Fixedsys"}
+oldFonts = {"DINPro-Medium Unicode MS", "DINPro-Medium CE", "MS Sans Serif", "Courier New CE", "Microsoft Sans Serif", "@Arial Unicode MS",
+            "Arial Unicode MS", "Tahoma", "Garamond", "Courier New", "MS Serif", "Arial CE",  "Arial",  "Fixedsys"}
 newFont = "DINPro-Medium"
 # Webdings, Windings should be ignored
 
@@ -16,8 +16,8 @@ for root, dirs, files in os.walk("folderName", topdown=False):
             with codecs.open(fileName, encoding='utf8') as f:
                 for line in f:
                     for font in oldFonts:
-                        if font in line:
-                            line = line.replace(font, newFont)
+                        if font.lower() in line.lower():
+                            line = line.lower().replace(font.lower(), newFont)
 
                     with open(outFile, "a") as fOut:
                         fOut.write(line.rstrip())
