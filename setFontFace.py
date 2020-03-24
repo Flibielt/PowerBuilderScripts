@@ -17,7 +17,7 @@ for root, dirs, files in os.walk("folderName", topdown=False):
                 for line in f:
                     for font in oldFonts:
                         if font.lower() in line.lower():
-                            line = line.lower().replace(font.lower(), newFont)
+                            line = line[:line.lower().find(font.lower())] + newFont + line[line.lower().find(font.lower()) + len(font):]
 
                     with open(outFile, "a") as fOut:
                         fOut.write(line.rstrip())
