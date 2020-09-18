@@ -1,9 +1,14 @@
 import os
 
-currentDirectory = os.getcwd()
+dirs = os.listdir(".")
+removedItemCount = 0
 
-dirs = os.listdir(currentDirectory)
+for root, dirs, files in os.walk(".", topdown=False):
+   for name in files:
+       if name.endswith(".srd") or name.endswith(".srf") or name.endswith(".sru") or name.endswith(".srw") or name.endswith(".srs") or name.endswith(".srm") or name.endswith(".srq"):
+        fileName = os.path.join(root, name)
+        print(fileName)
+        os.remove(fileName)
+        removedItemCount = removedItemCount + 1
 
-for item in dirs:
-    if item.endswith(".srd") or item.endswith(".srf") or item.endswith(".sru") or item.endswith(".srw") or item.endswith(".srs") or item.endswith(".srm") or item.endswith(".srq"):
-        os.remove(os.path.join(currentDirectory, item))
+print("Removed: " + str(removedItemCount))
