@@ -1,0 +1,1 @@
+pbc190.exe /d "@PBT" /o "@EXE" /r "d:\bmp\bmps.pbr" /w n /f /m n /x 32 /bg y /p "@PRD" /cp "@COM" /de "@DES" /cr "@CPY" /v "@PVS" /vn "@PVN" /fv "@PVS" /fvn "@PVN" /ge 0 /pd 

@@ -1,0 +1,8 @@
+svn:D:/medikai_svn/PB19_R2
+medambu:D:/medikai/medambu
+medoszt:D:/medikai/medoszt
+medboss:D:/medikai/boss_old
+medcent:D:/medikai/medcent
+medjel:D:/medikai/medjel
+medrtg:D:/medikai/MEDRTG
+medporta:D:/medikai/porta
